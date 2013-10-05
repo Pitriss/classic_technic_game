@@ -1,5 +1,8 @@
-Technic Game for Minetest engine
+Classic technic Game for Minetest engine
 ==========================================================
+
+This game is inspired by technic game, but with older more challenging
+recipes, with some additions, deletions and changes at all.
 
 Cloning with git:
 	This repository uses submodules. In order to get all the parts of the

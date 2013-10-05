@@ -1,6 +1,6 @@
 [submodule "mods/technic"]
 	path = mods/technic
-	url = https://github.com/minetest-technic/technic.git
+	url = https://github.com/Pitriss/classic_technic.git
 [submodule "mods/digilines"]
 	path = mods/digilines
 	url = https://github.com/Jeija/minetest-mod-digilines.git
@@ -28,15 +28,3 @@
 [submodule "mods/wireless"]
 	path = mods/wireless
 	url = https://github.com/lordcirth/minetest-wireless.git
-[submodule "mods/unified_inventory"]
-	path = mods/unified_inventory
-	url = https://github.com/minetest-technic/unified_inventory.git
-[submodule "mods/stargate"]
-	path = mods/stargate
-	url = https://github.com/minetest-technic/stargate.git
-[submodule "mods/framedglass"]
-	path = mods/framedglass
-	url = https://github.com/minetest-technic/framedglass.git
-[submodule "mods/item_drop"]
-	path = mods/item_drop
-	url = https://github.com/PilzAdam/item_drop.git
