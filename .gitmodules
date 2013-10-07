@@ -34,3 +34,6 @@
 [submodule "mods/stairs_plus"]
 	path = mods/stairs_plus
 	url = https://github.com/CasimirKaPazi/stairsplus
+[submodule "mods/homedecor"]
+	path = mods/homedecor
+	url = https://github.com/VanessaE/homedecor.git
