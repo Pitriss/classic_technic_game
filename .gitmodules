@@ -31,3 +31,6 @@
 [submodule "mods/farming_plus"]
 	path = mods/farming_plus
 	url = https://github.com/PilzAdam/farming_plus.git
+[submodule "mods/stairs_plus"]
+	path = mods/stairs_plus
+	url = https://github.com/CasimirKaPazi/stairsplus
