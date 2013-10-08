@@ -33,7 +33,7 @@
 	url = https://github.com/PilzAdam/farming_plus.git
 [submodule "mods/stairsplus"]
 	path = mods/stairsplus
-	url = https://github.com/CasimirKaPazi/stairsplus
+	url = https://github.com/CasimirKaPazi/stairsplus.git
 [submodule "mods/homedecor"]
 	path = mods/homedecor
 	url = https://github.com/VanessaE/homedecor.git
