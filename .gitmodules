@@ -40,3 +40,6 @@
 [submodule "mods/trash_can"]
 	path = mods/trash_can
 	url = https://github.com/4Evergreen4/trash_can.git
+[submodule "mods/computer"]
+	path = mods/computer
+	url = https://github.com/kaeza/minetest-computer.git
