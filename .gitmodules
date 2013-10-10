@@ -43,3 +43,6 @@
 [submodule "mods/computer"]
 	path = mods/computer
 	url = https://github.com/kaeza/minetest-computer.git
+[submodule "mods/connected_textures"]
+	path = mods/connected_textures
+	url = https://github.com/HybridDog/connected_textures.git
