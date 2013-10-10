@@ -37,3 +37,6 @@
 [submodule "mods/homedecor"]
 	path = mods/homedecor
 	url = https://github.com/VanessaE/homedecor.git
+[submodule "mods/trash_can"]
+	path = mods/trash_can
+	url = https://github.com/4Evergreen4/trash_can.git
