@@ -43,3 +43,6 @@
 [submodule "mods/connected_textures"]
 	path = mods/connected_textures
 	url = https://github.com/HybridDog/connected_textures.git
+[submodule "mods/gloopblocks"]
+	path = mods/gloopblocks
+	url = https://github.com/VanessaE/gloopblocks.git
