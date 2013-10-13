@@ -26,7 +26,7 @@ if streets.extendedBy.bucket == true and streets.extendedBy.wool then
 			{"bucket:bucket_lava", "bucket:bucket_empty"}
 		}
 	})
-	
+
 	minetest.register_node(":streets:sign_water",{
 		description = "Warning sign (water)",
 		tiles = {"streets_sign_water.png"},
@@ -54,7 +54,7 @@ if streets.extendedBy.bucket == true and streets.extendedBy.wool then
 			{"bucket:bucket_water", "bucket:bucket_empty"}
 		}
 	})
-	
+
 	minetest.register_node(":streets:sign_construction",{
 		description = "Warning sign (Construction area)",
 		tiles = {"streets_sign_construction.png"},

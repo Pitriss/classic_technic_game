@@ -11,7 +11,7 @@
 	streets.version	= "1.3 indev"
 	streets.modpath = minetest.get_modpath("streets")
 	streets.extendedBy	= {}
-	
+
 -- Check for mods which change this mod's beahaviour
 	print("Streets: Checking installed mods...")
 	if minetest.get_modpath("wool")	 then
@@ -63,7 +63,7 @@
 		print("'Prefab concrete' not installed \n\t => Streets will register its own concrete block.")
 		streets.extendedBy.prefab = false
 	end
-	
--- Done	
+
+-- Done
 	print("Streets: Setup completed, have fun with StreetsMod ".. streets.version .."!")
 	print("Streets: Special thanks to everyone who contributed to this mod (except myself): Immanuel_Kant and philipbenr!")
