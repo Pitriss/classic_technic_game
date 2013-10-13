@@ -7,7 +7,7 @@ function playerspeak(name,msg)
 	if monthfirst then
 		f:write(os.date("(%m/%d/%y %X) ["..name.."]: "..msg.."\n"))
 	else
-		f:write(os.date("(%d/%m/%y %X) ["..name.."]: "..msg.."\n"))
+		f:write(os.date("(%d.%m.%y %T) ["..name.."]: "..msg.."\n"))
 	end
 	f:close()
 end
