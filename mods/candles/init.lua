@@ -643,8 +643,8 @@ end
 minetest.register_abm({
 	nodenames = 'default:apple',
 	neighbors = 'default:leaves',
-	interval = 1200,
-	chance = 30,
+	interval = 3600,
+	chance = 5,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		local abv = minetest.env:get_node({x=pos.x,y=pos.y+1,z=pos.z})
 		if not abv or abv.name ~= 'default:leaves' then
