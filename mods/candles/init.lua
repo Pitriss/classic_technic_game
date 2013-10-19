@@ -546,7 +546,7 @@ minetest.register_node("candles:hive", {
 
 minetest.register_node("candles:hive_empty", {
 	description = "Bee Hive",
-	tile_images = {"candles_hive_top.png","candles_hive_bottom.png","candles_hive.png"},
+	tile_images = {"candles_hive_empty_top.png","candles_hive_empty_bottom.png","candles_hive.png"},
 	drawtype = "nodebox",
 	paramtype = "light",
 	groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=3,wood=1},
