@@ -46,3 +46,6 @@
 [submodule "mods/gloopblocks"]
 	path = mods/gloopblocks
 	url = https://github.com/VanessaE/gloopblocks.git
+[submodule "mods/modmenu"]
+	path = mods/modmenu
+	url = https://github.com/bhull2010/minetest-mod-modmenu.git
