@@ -46,3 +46,6 @@
 [submodule "mods/gloopblocks"]
 	path = mods/gloopblocks
 	url = https://github.com/VanessaE/gloopblocks.git
+[submodule "mods/itemframes"]
+	path = mods/itemframes
+	url = https://github.com/Zeg9/minetest-itemframes.git
