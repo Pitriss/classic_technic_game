@@ -3,6 +3,7 @@
 ]]
 minetest.register_node(":streets:streetlamp_basic_bottom",{
 	description = "Street lamp",
+	tiles = {"streetlamp_bottom.png"},
 	groups = {cracky = 1},
 	paramtype = "light",
 	drawtype = "nodebox",
@@ -38,7 +39,7 @@ minetest.register_node(":streets:streetlamp_basic_bottom",{
 -- })
 minetest.register_node(":streets:streetlamp_basic_middle",{
 	description = "U cheater U",
-	tiles = {"streets_pole.png"},
+	tiles = {"streetlamp_mid.png"},
 	groups = {cracky = 1, not_in_creative_inventory = 1},
 	paramtype = "light",
 	drawtype = "nodebox",
@@ -52,6 +53,7 @@ minetest.register_node(":streets:streetlamp_basic_middle",{
 })
 minetest.register_node(":streets:streetlamp_basic_top_off",{
 	description = "U cheater U",
+	tiles = {"streetlamp_top_off.png"},
 	groups = {cracky = 1, not_in_creative_inventory = 1},
 	paramtype = "light",
 	drawtype = "nodebox",
@@ -66,6 +68,7 @@ minetest.register_node(":streets:streetlamp_basic_top_off",{
 })
 minetest.register_node(":streets:streetlamp_basic_top_on",{
 	description = "U cheater U",
+	tiles = {"streetlamp_top.png"},
 	groups = {cracky = 1, not_in_creative_inventory = 1},
 	paramtype = "light",
 	drawtype = "nodebox",
