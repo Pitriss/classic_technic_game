@@ -28,9 +28,6 @@
 [submodule "mods/wireless"]
 	path = mods/wireless
 	url = https://github.com/lordcirth/minetest-wireless.git
-[submodule "mods/farming_plus"]
-	path = mods/farming_plus
-	url = https://github.com/PilzAdam/farming_plus.git
 [submodule "mods/homedecor"]
 	path = mods/homedecor
 	url = https://github.com/VanessaE/homedecor.git
