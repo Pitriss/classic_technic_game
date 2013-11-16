@@ -1,6 +1,14 @@
 -- Minetest 0.4 mod: farming
 -- See README.txt for licensing and other information.
 
+farming = {}
+
+local time_scale = 1
+local time_speed = tonumber(minetest.setting_get("time_speed"))
+
+if time_speed and time_speed > 0 then
+	time_scale = 72 / time_speed
+end
 --
 -- Soil
 --
@@ -22,15 +30,25 @@ minetest.register_node("farming:soil_wet", {
 	sounds = default.node_sound_dirt_defaults(),
 })
 
+local soil_interval = 15
+if soil_interval*time_scale >= 1 then
+	soil_interval = soil_interval*time_scale
+else
+	soil_interval = 1
+end
+
 minetest.register_abm({
 	nodenames = {"farming:soil", "farming:soil_wet"},
-	interval = 15,
+	interval = soil_interval,
 	chance = 4,
 	action = function(pos, node)
 		pos.y = pos.y+1
 		local nn = minetest.get_node(pos).name
 		pos.y = pos.y-1
-		if minetest.registered_nodes[nn] and minetest.registered_nodes[nn].walkable then
+		if minetest.registered_nodes[nn] and
+				minetest.registered_nodes[nn].walkable and
+				minetest.get_item_group(nn, "plant") == 0
+		then
 			minetest.set_node(pos, {name="default:dirt"})
 		end
 		-- check if there is water nearby
@@ -46,7 +64,7 @@ minetest.register_abm({
 				if minetest.get_item_group(nn, "plant") == 0 then
 					minetest.set_node(pos, {name="default:dirt"})
 				end
-				
+
 			-- if its wet turn it back into dry soil
 			elseif node.name == "farming:soil_wet" then
 				minetest.set_node(pos, {name="farming:soil"})
@@ -59,7 +77,7 @@ minetest.register_abm({
 -- Hoes
 --
 -- turns nodes with group soil=1 into soil
-local function hoe_on_use(itemstack, user, pointed_thing, uses)
+function farming.hoe_on_use(itemstack, user, pointed_thing, uses)
 	local pt = pointed_thing
 	-- check if pointing at a node
 	if not pt then
@@ -68,11 +86,11 @@ local function hoe_on_use(itemstack, user, pointed_thing, uses)
 	if pt.type ~= "node" then
 		return
 	end
-	
+
 	local under = minetest.get_node(pt.under)
 	local p = {x=pt.under.x, y=pt.under.y+1, z=pt.under.z}
 	local above = minetest.get_node(p)
-	
+
 	-- return if any of the nodes is not registered
 	if not minetest.registered_nodes[under.name] then
 		return
@@ -80,17 +98,17 @@ local function hoe_on_use(itemstack, user, pointed_thing, uses)
 	if not minetest.registered_nodes[above.name] then
 		return
 	end
-	
+
 	-- check if the node above the pointed thing is air
 	if above.name ~= "air" then
 		return
 	end
-	
+
 	-- check if pointing at dirt
 	if minetest.get_item_group(under.name, "soil") ~= 1 then
 		return
 	end
-	
+
 	-- turn the node into soil, wear out item and play sound
 	minetest.set_node(pt.under, {name="farming:soil"})
 	minetest.sound_play("default_dig_crumbly", {
@@ -104,36 +122,36 @@ end
 minetest.register_tool("farming:hoe_wood", {
 	description = "Wooden Hoe",
 	inventory_image = "farming_tool_woodhoe.png",
-	
+
 	on_use = function(itemstack, user, pointed_thing)
-		return hoe_on_use(itemstack, user, pointed_thing, 30)
+		return farming.hoe_on_use(itemstack, user, pointed_thing, 30)
 	end,
 })
 
 minetest.register_tool("farming:hoe_stone", {
 	description = "Stone Hoe",
 	inventory_image = "farming_tool_stonehoe.png",
-	
+
 	on_use = function(itemstack, user, pointed_thing)
-		return hoe_on_use(itemstack, user, pointed_thing, 90)
+		return farming.hoe_on_use(itemstack, user, pointed_thing, 90)
 	end,
 })
 
 minetest.register_tool("farming:hoe_steel", {
 	description = "Steel Hoe",
 	inventory_image = "farming_tool_steelhoe.png",
-	
+
 	on_use = function(itemstack, user, pointed_thing)
-		return hoe_on_use(itemstack, user, pointed_thing, 200)
+		return farming.hoe_on_use(itemstack, user, pointed_thing, 200)
 	end,
 })
 
 minetest.register_tool("farming:hoe_bronze", {
 	description = "Bronze Hoe",
 	inventory_image = "farming_tool_bronzehoe.png",
-	
+
 	on_use = function(itemstack, user, pointed_thing)
-		return hoe_on_use(itemstack, user, pointed_thing, 220)
+		return farming.hoe_on_use(itemstack, user, pointed_thing, 220)
 	end,
 })
 
@@ -141,8 +159,8 @@ minetest.register_craft({
 	output = "farming:hoe_wood",
 	recipe = {
 		{"group:wood", "group:wood"},
-		{"", "default:stick"},
-		{"", "default:stick"},
+		{"", "group:stick"},
+		{"", "group:stick"},
 	}
 })
 
@@ -150,8 +168,8 @@ minetest.register_craft({
 	output = "farming:hoe_stone",
 	recipe = {
 		{"group:stone", "group:stone"},
-		{"", "default:stick"},
-		{"", "default:stick"},
+		{"", "group:stick"},
+		{"", "group:stick"},
 	}
 })
 
@@ -159,8 +177,8 @@ minetest.register_craft({
 	output = "farming:hoe_steel",
 	recipe = {
 		{"default:steel_ingot", "default:steel_ingot"},
-		{"", "default:stick"},
-		{"", "default:stick"},
+		{"", "group:stick"},
+		{"", "group:stick"},
 	}
 })
 
@@ -168,8 +186,8 @@ minetest.register_craft({
 	output = "farming:hoe_bronze",
 	recipe = {
 		{"default:bronze_ingot", "default:bronze_ingot"},
-		{"", "default:stick"},
-		{"", "default:stick"},
+		{"", "group:stick"},
+		{"", "group:stick"},
 	}
 })
 
@@ -272,10 +290,10 @@ local function place_seed(itemstack, placer, pointed_thing, plantname)
 	if pt.type ~= "node" then
 		return
 	end
-	
+
 	local under = minetest.get_node(pt.under)
 	local above = minetest.get_node(pt.above)
-	
+
 	-- return if any of the nodes is not registered
 	if not minetest.registered_nodes[under.name] then
 		return
@@ -283,22 +301,22 @@ local function place_seed(itemstack, placer, pointed_thing, plantname)
 	if not minetest.registered_nodes[above.name] then
 		return
 	end
-	
+
 	-- check if pointing at the top of the node
 	if pt.above.y ~= pt.under.y+1 then
 		return
 	end
-	
+
 	-- check if you can replace the node above the pointed node
 	if not minetest.registered_nodes[above.name].buildable_to then
 		return
 	end
-	
+
 	-- check if pointing at soil
 	if minetest.get_item_group(under.name, "soil") <= 1 then
 		return
 	end
-	
+
 	-- add the node and remove 1 item from the itemstack
 	minetest.add_node(pt.above, {name=plantname})
 	if not minetest.setting_getbool("creative_mode") then
@@ -373,17 +391,25 @@ for i=1,8 do
 	})
 end
 
+local wheat_interval = 90
+if wheat_interval*time_scale >= 1 then
+	wheat_interval = wheat_interval*time_scale
+else
+	wheat_interval = 1
+end
+
+
 minetest.register_abm({
 	nodenames = {"group:wheat"},
 	neighbors = {"group:soil"},
-	interval = 90,
+	interval = wheat_interval,
 	chance = 2,
 	action = function(pos, node)
 		-- return if already full grown
 		if minetest.get_item_group(node.name, "wheat") == 8 then
 			return
 		end
-		
+
 		-- check if on wet soil
 		pos.y = pos.y-1
 		local n = minetest.get_node(pos)
@@ -391,7 +417,7 @@ minetest.register_abm({
 			return
 		end
 		pos.y = pos.y+1
-		
+
 		-- check light
 		if not minetest.get_node_light(pos) then
 			return
@@ -399,7 +425,7 @@ minetest.register_abm({
 		if minetest.get_node_light(pos) < 13 then
 			return
 		end
-		
+
 		-- grow
 		local height = minetest.get_item_group(node.name, "wheat") + 1
 		minetest.set_node(pos, {name="farming:wheat_"..height})
@@ -458,17 +484,24 @@ for i=1,8 do
 	})
 end
 
+local cotton_interval = 80
+if cotton_interval*time_scale >= 1 then
+	cotton_interval = cotton_interval*time_scale
+else
+	cotton_interval = 1
+end
+
 minetest.register_abm({
 	nodenames = {"group:cotton"},
 	neighbors = {"group:soil"},
-	interval = 80,
+	interval = cotton_interval,
 	chance = 2,
 	action = function(pos, node)
 		-- return if already full grown
 		if minetest.get_item_group(node.name, "cotton") == 8 then
 			return
 		end
-		
+
 		-- check if on wet soil
 		pos.y = pos.y-1
 		local n = minetest.get_node(pos)
@@ -476,7 +509,7 @@ minetest.register_abm({
 			return
 		end
 		pos.y = pos.y+1
-		
+
 		-- check light
 		if not minetest.get_node_light(pos) then
 			return
@@ -484,7 +517,7 @@ minetest.register_abm({
 		if minetest.get_node_light(pos) < 13 then
 			return
 		end
-		
+
 		-- grow
 		local height = minetest.get_item_group(node.name, "cotton") + 1
 		minetest.set_node(pos, {name="farming:cotton_"..height})
