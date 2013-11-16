@@ -1,29 +1,16 @@
-farming = {}
+local time_scale = 1
+local time_speed = tonumber(minetest.setting_get("time_speed"))
 
-if minetest.setting_getbool('farmingplus.dynamic') ~= nil then
-	fplus_dynamic_mode = minetest.setting_getbool('farmingplus.dynamic')
-end
-if minetest.setting_get('time_speed') ~= nil then
-	fplus_time_speed = minetest.setting_get('time_speed')
-else
-	local fplus_time_speed = 72 --default value
-end
-
-if fplus_dynamic_mode and fplus_time_speed == 72 then
-	fplus_dynamic_mode = nil
-	print("Farming plus: Dynamic mode disabled. With default time_speed value is not needed.")
-elseif dynamic_mode and fplus_time_speed == 0 then
-	fplus_dynamic_mode = nil
-	print("Farming plus: Dynamic mode disabled. With zero time_speed is impossible to count proper interval.")
+if time_speed and time_speed > 0 then
+	time_scale = 72 / time_speed
 end
 
 function farming:add_plant(full_grown, names, interval, chance)
 
-	if fplus_dynamic_mode then
-		local coef = 72/fplus_time_speed
-		local new_interval = interval * coef
--- 		print("Farming plus: original interval: "..tostring(interval).."; new interval: "..tostring(new_interval)..".")
-		interval = new_interval
+	if interval*time_scale >= 1 then
+		interval = interval*time_scale
+	else
+		interval = 1
 	end
 
 	minetest.register_abm({
