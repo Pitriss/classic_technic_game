@@ -62,7 +62,7 @@ minetest.register_node(":farming:pumpkin", {
 	tiles = {"farming_pumpkin_top.png", "farming_pumpkin_top.png", "farming_pumpkin_side.png", "farming_pumpkin_side.png", "farming_pumpkin_side.png", "farming_pumpkin_side.png"},
 	groups = {choppy=2, oddly_breakable_by_hand=2, flammable=2, plant=1},
 	sounds = default.node_sound_wood_defaults(),
-	
+
 	on_punch = function(pos, node, puncher)
 		local tool = puncher:get_wielded_item():get_name()
 		if tool and tool == "default:sword_wood" or tool == "default:sword_stone" or tool == "default:sword_steel" then
@@ -70,6 +70,9 @@ minetest.register_node(":farming:pumpkin", {
 			minetest.env:set_node(pos, node)
 			puncher:get_inventory():add_item("main", ItemStack("farming:pumpkin_seed"))
 			if math.random(1, 5) == 1 then
+				puncher:get_inventory():add_item("main", ItemStack("farming:pumpkin_seed"))
+			end
+			if math.random(1, 5) == 1 and tool == "default:sword_steel" then
 				puncher:get_inventory():add_item("main", ItemStack("farming:pumpkin_seed"))
 			end
 		end
@@ -114,7 +117,7 @@ minetest.register_node(":farming:big_pumpkin", {
 	},
 	groups = {choppy=1, oddly_breakable_by_hand=1, flammable=2},
 	sounds = default.node_sound_wood_defaults(),
-	
+
 	after_place_node = function(pos, placer)
 		for dx=-1,1 do
 			for dy=0,1 do
@@ -169,7 +172,7 @@ minetest.register_node(":farming:big_pumpkin", {
 		pos.y = pos.y+1
 		minetest.env:set_node(pos, {name="farming:big_pumpkin_top"})
 	end,
-	
+
 	after_destruct = function(pos, oldnode)
 		for dx=-1,1 do
 			for dy=0,1 do
@@ -296,7 +299,7 @@ minetest.register_node(":farming:scarecrow", {
 		}
 	},
 	groups = {choppy=2, oddly_breakable_by_hand=2, flammable=2},
-	
+
 	after_place_node = function(pos, placer)
 		local node = minetest.env:get_node(pos)
 		local param2 = node.param2
@@ -316,7 +319,7 @@ minetest.register_node(":farming:scarecrow", {
 		node.name = "farming:scarecrow_bottom"
 		minetest.env:set_node(pos, node)
 	end,
-	
+
 	after_destruct = function(pos, oldnode)
 		pos.y = pos.y-1
 		if minetest.env:get_node(pos).name == "farming:scarecrow_bottom" then
@@ -372,7 +375,7 @@ minetest.register_node(":farming:scarecrow_light", {
 		}
 	},
 	groups = {choppy=2, oddly_breakable_by_hand=2, flammable=2},
-	
+
 	after_place_node = function(pos, placer)
 		local node = minetest.env:get_node(pos)
 		local param2 = node.param2
@@ -392,7 +395,7 @@ minetest.register_node(":farming:scarecrow_light", {
 		node.name = "farming:scarecrow_bottom"
 		minetest.env:set_node(pos, node)
 	end,
-	
+
 	after_destruct = function(pos, oldnode)
 		pos.y = pos.y-1
 		if minetest.env:get_node(pos).name == "farming:scarecrow_bottom" then
