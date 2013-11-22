@@ -142,6 +142,53 @@ function farming:generate_tree(pos, trunk, leaves, underground, replacements)
 	end
 end
 
+--
+-- Place seeds
+--
+function farmingplus_place_seed(itemstack, placer, pointed_thing, plantname)
+	local pt = pointed_thing
+	-- check if pointing at a node
+	if not pt then
+		return
+	end
+	if pt.type ~= "node" then
+		return
+	end
+
+	local under = minetest.get_node(pt.under)
+	local above = minetest.get_node(pt.above)
+
+	-- return if any of the nodes is not registered
+	if not minetest.registered_nodes[under.name] then
+		return
+	end
+	if not minetest.registered_nodes[above.name] then
+		return
+	end
+
+	-- check if pointing at the top of the node
+	if pt.above.y ~= pt.under.y+1 then
+		return
+	end
+
+	-- check if you can replace the node above the pointed node
+	if not minetest.registered_nodes[above.name].buildable_to then
+		return
+	end
+
+	-- check if pointing at soil
+	if minetest.get_item_group(under.name, "soil") <= 1 then
+		return
+	end
+
+	-- add the node and remove 1 item from the itemstack
+	minetest.add_node(pt.above, {name=plantname})
+	if not minetest.setting_getbool("creative_mode") then
+		itemstack:take_item()
+	end
+	return itemstack
+end
+
 farming.seeds = {
 	["farming:pumpkin_seed"]=60,
 	["farming_plus:strawberry_seed"]=30,

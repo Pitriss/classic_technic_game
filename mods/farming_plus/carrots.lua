@@ -2,14 +2,8 @@ minetest.register_craftitem("farming_plus:carrot_seed", {
 	description = "Carrot Seeds",
 	inventory_image = "farming_carrot_seed.png",
 	on_place = function(itemstack, placer, pointed_thing)
-		local above = minetest.env:get_node(pointed_thing.above)
-		if above.name == "air" then
-			above.name = "farming_plus:carrot_1"
-			minetest.env:set_node(pointed_thing.above, above)
-			itemstack:take_item(1)
-			return itemstack
-		end
-	end
+		return farmingplus_place_seed(itemstack, placer, pointed_thing, "farming_plus:carrot_1")
+	end,
 })
 
 minetest.register_node("farming_plus:carrot_1", {
@@ -17,6 +11,7 @@ minetest.register_node("farming_plus:carrot_1", {
 	walkable = false,
 	drawtype = "plantlike",
 	drop = "",
+	is_ground_content = true,
 	tiles = {"farming_carrot_1.png"},
 	selection_box = {
 		type = "fixed",
