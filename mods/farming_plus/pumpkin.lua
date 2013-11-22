@@ -2,7 +2,7 @@ minetest.register_craftitem(":farming:pumpkin_seed", {
 	description = "Pumpkin Seed",
 	inventory_image = "farming_pumpkin_seed.png",
 	on_place = function(itemstack, placer, pointed_thing)
-		return farmingplus_place_seed(itemstack, placer, pointed_thing, "farming_plus:pumpkin_1")
+		return farmingplus_place_seed(itemstack, placer, pointed_thing, "farming:pumpkin_1")
 	end,
 })
 
