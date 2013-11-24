@@ -495,6 +495,20 @@ minetest.register_node("candles:hive_wild", {
 	end
 })
 
+local time_scale = 1
+local time_speed = tonumber(minetest.setting_get("time_speed"))
+
+if time_speed and time_speed > 0 then
+	time_scale = 72 / time_speed
+end
+
+local hive_interval = 300
+if hive_interval*time_scale >= 1 then
+	hive_interval = hive_interval*time_scale
+else
+	hive_interval = 1
+end
+
 minetest.register_node("candles:hive", {
 	description = "Bee Hive",
 	tile_images = {"candles_hive_top.png","candles_hive_bottom.png","candles_hive.png"},
@@ -529,6 +543,9 @@ minetest.register_node("candles:hive", {
 				meta:set_string('angry','true')
 				meta:set_string('infotext','Bee Hive: Angry');
 			else
+				if c > 18 then
+					c = 18
+				end
 				meta:set_int('comb',c+2)
 				meta:set_string('infotext','Bee Hive: Busy');
 			end
@@ -540,7 +557,7 @@ minetest.register_node("candles:hive", {
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string('angry','true')
 		meta:set_string('infotext','Bee Hive: Angry');
-		tmr:start(300)
+		tmr:start(hive_interval)
 	end
 })
 
@@ -572,7 +589,7 @@ minetest.register_node("candles:hive_empty", {
 		local tmr = minetest.env:get_node_timer(pos)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string('infotext','Bee Hive: Empty');
-		tmr:start(300)
+		tmr:start(hive_interval)
 	end
 })
 
