@@ -178,10 +178,24 @@ end,
 -- Papyrus and cactus growing
 --
 
+local time_scale = 1
+local time_speed = tonumber(minetest.setting_get("time_speed"))
+
+if time_speed and time_speed > 0 then
+	time_scale = 72 / time_speed
+end
+
+local cactus_interval = 50
+if cactus_interval*time_scale >= 1 then
+	cactus_interval = cactus_interval*time_scale
+else
+	cactus_interval = 1
+end
+
 minetest.register_abm({
 	nodenames = {"default:cactus"},
 	neighbors = {"group:sand"},
-	interval = 50,
+	interval = cactus_interval,
 	chance = 20,
 	action = function(pos, node)
 		pos.y = pos.y-1
@@ -202,10 +216,18 @@ minetest.register_abm({
 	end,
 })
 
+
+local papyrus_interval = 50
+if papyrus_interval*time_scale >= 1 then
+	papyrus_interval = papyrus_interval*time_scale
+else
+	papyrus_interval = 1
+end
+
 minetest.register_abm({
 	nodenames = {"default:papyrus"},
 	neighbors = {"default:dirt", "default:dirt_with_grass"},
-	interval = 50,
+	interval = papyrus_interval,
 	chance = 20,
 	action = function(pos, node)
 		pos.y = pos.y-1
