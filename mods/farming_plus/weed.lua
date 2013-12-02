@@ -16,9 +16,23 @@ minetest.register_node(":farming:weed", {
 	sounds = default.node_sound_leaves_defaults()
 })
 
+local time_scale = 1
+local time_speed = tonumber(minetest.setting_get("time_speed"))
+
+if time_speed and time_speed > 0 then
+	time_scale = 72 / time_speed
+end
+
+local weed_interval = 50
+if weed_interval*time_scale >= 1 then
+	weed_interval = weed_interval*time_scale
+else
+	weed_interval = 1
+end
+
 minetest.register_abm({
 	nodenames = {"farming:soil_wet", "farming:soil"},
-	interval = 50,
+	interval = weed_interval,
 	chance = 10,
 	action = function(pos, node)
 		if minetest.env:find_node_near(pos, 4, {"farming:scarecrow", "farming:scarecrow_light"}) ~= nil then
