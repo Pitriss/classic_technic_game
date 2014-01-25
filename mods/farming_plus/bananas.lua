@@ -1,3 +1,10 @@
+local time_scale = 1
+local time_speed = tonumber(minetest.setting_get("time_speed"))
+
+if time_speed and time_speed > 0 then
+	time_scale = 72 / time_speed
+end
+
 minetest.register_node("farming_plus:banana_sapling", {
 	description = "Banana Tree Sapling",
 	drawtype = "plantlike",
@@ -15,21 +22,26 @@ minetest.register_node("farming_plus:banana_leaves", {
 	tiles = {"farming_banana_leaves.png"},
 	paramtype = "light",
 	groups = {snappy=3, leafdecay=3, flammable=2, not_in_creative_inventory=1},
- 	drop = {
+	drop = {
 		max_items = 1,
 		items = {
-			{
-				items = {'farming_plus:banana_sapling'},
-				rarity = 20,
-			},
+			{items = {'farming_plus:banana_sapling'}, rarity = 20 },
+			{items = {"farming_plus:banana_leaves"} }
 		}
 	},
 	sounds = default.node_sound_leaves_defaults(),
 })
 
+local sapling_interval = 60
+if sapling_interval*time_scale >= 1 then
+	sapling_interval = sapling_interval*time_scale
+else
+	sapling_interval = 1
+end
+
 minetest.register_abm({
 	nodenames = {"farming_plus:banana_sapling"},
-	interval = 60,
+	interval = sapling_interval,
 	chance = 20,
 	action = function(pos, node)
 		farming:generate_tree(pos, "default:tree", "farming_plus:banana_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:banana"]=20})
@@ -58,6 +70,6 @@ minetest.register_node("farming_plus:banana", {
 	walkable = false,
 	groups = {fleshy=3,dig_immediate=3,flammable=2},
 	sounds = default.node_sound_defaults(),
-	
+
 	on_use = minetest.item_eat(6),
 })
