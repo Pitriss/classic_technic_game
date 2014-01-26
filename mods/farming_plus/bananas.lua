@@ -18,6 +18,7 @@ minetest.register_node("farming_plus:banana_sapling", {
 })
 
 minetest.register_node("farming_plus:banana_leaves", {
+	description = "Banana Tree Leaves",
 	drawtype = "allfaces_optional",
 	tiles = {"farming_banana_leaves.png"},
 	paramtype = "light",

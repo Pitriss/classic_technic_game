@@ -18,6 +18,7 @@ minetest.register_node("farming_plus:cocoa_sapling", {
 })
 
 minetest.register_node("farming_plus:cocoa_leaves", {
+	description = "Cocoa Tree leaves",
 	drawtype = "allfaces_optional",
 	tiles = {"farming_banana_leaves.png"},
 	paramtype = "light",
