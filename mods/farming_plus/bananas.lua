@@ -22,7 +22,7 @@ minetest.register_node("farming_plus:banana_leaves", {
 	drawtype = "allfaces_optional",
 	tiles = {"farming_banana_leaves.png"},
 	paramtype = "light",
-	groups = {snappy=3, leafdecay=3, flammable=2, not_in_creative_inventory=1},
+	groups = {snappy=3, leafdecay=3, flammable=2},
 	drop = {
 		max_items = 1,
 		items = {
