@@ -292,6 +292,15 @@ minetest.register_craft({
 minetest.register_craft({
 	output = 'default:furnace',
 	recipe = {
+		{'group:cobble', 'group:cobble', 'group:cobble'},
+		{'group:cobble', '', 'group:cobble'},
+		{'group:cobble', 'group:cobble', 'group:cobble'},
+	}
+})
+
+minetest.register_craft({
+	output = 'default:furnace',
+	recipe = {
 		{'default:cobble', 'default:cobble', 'default:cobble'},
 		{'default:cobble', '', 'default:cobble'},
 		{'default:cobble', 'default:cobble', 'default:cobble'},

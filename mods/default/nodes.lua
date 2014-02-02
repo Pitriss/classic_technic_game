@@ -1024,7 +1024,7 @@ minetest.register_node("default:cobble", {
 	description = "Cobblestone",
 	tiles = {"default_cobble.png"},
 	is_ground_content = true,
-	groups = {cracky=3, stone=2},
+	groups = {cracky=3, stone=2, cobble=1},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -1032,7 +1032,7 @@ minetest.register_node("default:mossycobble", {
 	description = "Mossy Cobblestone",
 	tiles = {"default_mossycobble.png"},
 	is_ground_content = true,
-	groups = {cracky=3},
+	groups = {cracky=3, cobble=1},
 	sounds = default.node_sound_stone_defaults(),
 })
 
