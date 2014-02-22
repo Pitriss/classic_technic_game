@@ -523,3 +523,214 @@ minetest.register_abm({
 		minetest.set_node(pos, {name="farming:cotton_"..height})
 	end
 })
+
+--
+-- Soy
+--
+minetest.register_craftitem("farming:soy", {
+	description = "Soy beans",
+	on_use=minetest.item_eat(2),
+	inventory_image = "farming_soy.png",
+	wield_image = "farming_soy.png",
+})
+
+minetest.register_craftitem("farming:soy_milk", {
+	description = "Soy milk",
+	on_use=minetest.item_eat(8),
+	inventory_image = "farming_soy_milk.png",
+	wield_image = "farming_soy_milk.png",
+	groups = {milk=1},
+})
+
+minetest.register_craft({
+	output = "farming:soy_milk",
+	recipe = {
+		{"farming:soy"},
+		{"vessels:drinking_glass"},
+	}
+})
+
+for i=1,4 do
+	local drop = {
+		items = {
+			{items = {"farming:soy"},rarity=5-i},
+			{items = {"farming:soy"},rarity=10-i*2},
+			{items = {"farming:soy"},rarity=15-i*3},
+			{items = {"farming:seed_soy"},rarity=5-i},
+			{items = {"farming:seed_soy"},rarity=10-i*2},
+			{items = {"farming:seed_soy"},rarity=15-i*3},
+		}
+	}
+
+	minetest.register_node("farming:soy_"..i, {
+		description = "Soy Stage "..i,
+		drawtype = "plantlike",
+		tiles = {"farming_soy_"..i..".png"},
+		paramtype = "light",
+		walkable = false,
+		buildable_to = true,
+		drop = drop,
+		selection_box = {
+			type = "fixed",
+			fixed = {-0.5, -0.5, -0.5, 0.5, -5/16, 0.5},
+		},
+
+		groups = {snappy=3,flammable=2,plant=1,name=i,not_in_creative_inventory=1,attached_node=1,soy=i},
+		sounds = default.node_sound_leaves_defaults(),
+	})
+
+minetest.register_craftitem("farming:seed_soy", {
+	description = "Soy Seed",
+	inventory_image = "farming_soy_seed.png",
+	on_place = function(itemstack, placer, pointed_thing)
+		return place_seed(itemstack, placer, pointed_thing, "farming:soy_1")
+	end,
+})
+end
+
+
+
+local soy_interval = 200
+if soy_interval*time_scale >= 1 then
+	soy_interval = soy_interval*time_scale
+else
+	soy_interval = 1
+end
+
+minetest.register_abm({
+	nodenames = {"group:soy"},
+	neighbors = {"group:soil"},
+	interval = soy_interval,
+	chance = 2,
+	action = function(pos, node)
+		-- return if already full grown
+		if minetest.get_item_group(node.name, "soy") == 4 then
+			return
+		end
+
+		-- check if on wet soil
+		pos.y = pos.y-1
+		local n = minetest.get_node(pos)
+		if minetest.get_item_group(n.name, "soil") < 3 then
+			return
+		end
+		pos.y = pos.y+1
+
+		-- check light
+		if not minetest.get_node_light(pos) then
+			return
+		end
+		if minetest.get_node_light(pos) < 13 then
+			return
+		end
+
+		-- grow
+		local height = minetest.get_item_group(node.name, "soy") + 1
+		minetest.set_node(pos, {name="farming:soy_"..height})
+	end
+})
+
+-- Spawn some soya plants to be able get seeds
+
+local biome = {
+	spawn_plants = {"farming:soy_4"},
+	spawn_delay = 1000,
+	spawn_chance = 500,
+	spawn_surfaces = {"default:dirt_with_grass"},
+	light_min = 6,
+	near_nodes = {"default:tree","moretrees:willow_trunk","moretrees:rubber_tree_trunk","moretrees:apple_tree_trunk","moretrees:oak_trunk","moretrees:sequoia_trunk","moretrees:pine_trunk","moretrees:spruce_trunk","moretrees:fir_trunk","moretrees:birch_trunk"},
+	near_nodes_size = 2,
+	near_nodes_vertical = 2,
+	avoid_nodes = {"farming:soy_4"},
+	avoid_radius = 10,
+}
+plantslib:spawn_on_surfaces(biome)
+
+
+--
+-- Cake
+--
+
+minetest.register_node("farming:cake", {
+	drawtype = "nodebox",
+	description = "CAKE!!!",
+	tiles = {"farming_cake_top.png","farming_cake_base.png","farming_cake_side.png"},
+	groups = {crumbly=3},
+	paramtype = "light",
+	drop = "farming:cake",
+	on_use=minetest.item_eat(16),
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-6/16, -8/16, -4/16, 6/16, 0/16, 4/16},
+			{-4/16, -8/16, -6/16, 4/16, 0/16, 6/16},
+			{-5/16, -8/16, -5/16, 5/16, 0/16, 5/16},
+		},
+	},
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-8/16,-8/16,-8/16,8/16,0/16,8/16},
+		},
+	},
+})
+
+minetest.register_craftitem("farming:dough", {
+	description = "Cake Mixture",
+	inventory_image = "farming_cakedough.png",
+	wield_image = "farming_cakedough.png",
+})
+
+minetest.register_craft({
+	output = "farming:dough",
+	recipe = {
+		{"bushes:sugar","group:milk", "bushes:sugar"},
+		{"farming:flour","farming:flour","farming:flour"},
+	},
+	replacements = {
+		{ "group:milk", "vessels:drinking_glass" }
+	}
+})
+
+minetest.register_craft({
+	type = "cooking",
+	output = "farming:cake",
+	recipe = "farming:dough",
+	cooktime = 30,
+})
+
+--
+-- Other stuff
+--
+
+--if coconut milk is registered, add it to group milk
+if minetest.registered_items["moretrees:coconut_milk"] then
+	local convtable = minetest.registered_items["moretrees:coconut_milk"]
+	local convtable2 = {}
+	for i,v in pairs(convtable) do
+		convtable2[i] = v
+	end
+	if convtable2.groups == nil then
+		convtable2.groups = {milk=1}
+	else
+		convtable2.groups.milk=1
+	end
+	minetest.register_craftitem(":moretrees:coconut_milk", convtable2)
+end
+
+--why not use every milk for making muffins
+minetest.register_craft({
+	type = "shapeless",
+	output = "moretrees:acorn_muffin_batter",
+	recipe = {
+		"moretrees:acorn",
+		"moretrees:acorn",
+		"moretrees:acorn",
+		"moretrees:acorn",
+		"group:milk",
+	},
+	replacements = {
+		{ "group:milk", "vessels:drinking_glass" }
+	}
+})
+
