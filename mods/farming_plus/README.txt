@@ -1,16 +1,7 @@
 ===FARMING_PLUS MOD for MINETEST===
 by PilzAdam
 
-Dynamic modification by pitriss
-
-Configuration:
-
-Add
-
-farmingplus.dynamic = true
-
-into minetest.conf, to enable "dynamic" crops growning times (if you have non default time_speed, time of growing will be adjusted)
-
+Dynamic groving times and other modifications by pitriss
 
 License:
 Sourcecode: WTFPL (see below)
