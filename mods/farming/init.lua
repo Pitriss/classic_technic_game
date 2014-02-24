@@ -640,7 +640,8 @@ local biome = {
 	near_nodes_size = 2,
 	near_nodes_vertical = 2,
 	avoid_nodes = {"farming:soy_4"},
-	avoid_radius = 10,
+	avoid_radius = 20,
+	min_elevation = 0,
 }
 plantslib:spawn_on_surfaces(biome)
 
