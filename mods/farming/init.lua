@@ -588,8 +588,6 @@ minetest.register_craftitem("farming:seed_soy", {
 })
 end
 
-
-
 local soy_interval = 200
 if soy_interval*time_scale >= 1 then
 	soy_interval = soy_interval*time_scale
@@ -646,91 +644,5 @@ local biome = {
 }
 plantslib:spawn_on_surfaces(biome)
 
-
---
--- Cake
---
-
-minetest.register_node("farming:cake", {
-	drawtype = "nodebox",
-	description = "CAKE!!!",
-	tiles = {"farming_cake_top.png","farming_cake_base.png","farming_cake_side.png"},
-	groups = {crumbly=3},
-	paramtype = "light",
-	drop = "farming:cake",
-	on_use=minetest.item_eat(16),
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-6/16, -8/16, -4/16, 6/16, 0/16, 4/16},
-			{-4/16, -8/16, -6/16, 4/16, 0/16, 6/16},
-			{-5/16, -8/16, -5/16, 5/16, 0/16, 5/16},
-		},
-	},
-	selection_box = {
-		type = "fixed",
-		fixed = {
-			{-8/16,-8/16,-8/16,8/16,0/16,8/16},
-		},
-	},
-})
-
-minetest.register_craftitem("farming:dough", {
-	description = "Cake Mixture",
-	inventory_image = "farming_cakedough.png",
-	wield_image = "farming_cakedough.png",
-})
-
-minetest.register_craft({
-	output = "farming:dough",
-	recipe = {
-		{"bushes:sugar","group:milk", "bushes:sugar"},
-		{"farming:flour","farming:flour","farming:flour"},
-	},
-	replacements = {
-		{ "group:milk", "vessels:drinking_glass" }
-	}
-})
-
-minetest.register_craft({
-	type = "cooking",
-	output = "farming:cake",
-	recipe = "farming:dough",
-	cooktime = 30,
-})
-
---
--- Other stuff
---
-
---if coconut milk is registered, add it to group milk
-if minetest.registered_items["moretrees:coconut_milk"] then
-	local convtable = minetest.registered_items["moretrees:coconut_milk"]
-	local convtable2 = {}
-	for i,v in pairs(convtable) do
-		convtable2[i] = v
-	end
-	if convtable2.groups == nil then
-		convtable2.groups = {milk=1}
-	else
-		convtable2.groups.milk=1
-	end
-	minetest.register_craftitem(":moretrees:coconut_milk", convtable2)
-end
-
---why not use every milk for making muffins
-minetest.register_craft({
-	type = "shapeless",
-	output = "moretrees:acorn_muffin_batter",
-	recipe = {
-		"moretrees:acorn",
-		"moretrees:acorn",
-		"moretrees:acorn",
-		"moretrees:acorn",
-		"group:milk",
-	},
-	replacements = {
-		{ "group:milk", "vessels:drinking_glass" }
-	}
-})
-
+dofile(minetest.get_modpath("farming").."/nodes.lua")
+dofile(minetest.get_modpath("farming").."/crafts.lua")
