@@ -20,3 +20,5 @@ More Ores: http://minetest.net/forum/viewtopic.php?id=549
 Map Tools: http://minetest.net/forum/viewtopic.php?id=1882
 Doors+: http://minetest.net/forum/viewtopic.php?id=2059
 Stairs+: http://minetest.net/forum/viewtopic.php?id=2092
+
+Pitriss note: version 05.July 2014 - 779baaf3de105a609213c87ce3399371e651204c - removed new recipes for locked chests
