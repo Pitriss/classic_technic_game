@@ -91,11 +91,9 @@ local update_item = function(pos, node)
 	if meta:get_string("item") ~= "" then
 		if node.name == "itemframes:frame" then
 			local posad = facedir[node.param2]
-			print(minetest.serialize(posad).."param byl: "..node.param2)
 			pos.x = pos.x + posad.x * 6.5 / 16
 			pos.y = pos.y + posad.y * 6.5 / 16
 			pos.z = pos.z + posad.z * 6.5 / 16
-			print(minetest.serialize(pos).." param byl: "..node.param2)
 		elseif node.name == "itemframes:pedestal" then
 			pos.y = pos.y + 0.5 + 0.3333
 		end
@@ -105,7 +103,6 @@ local update_item = function(pos, node)
 		if node.name == "itemframes:frame" then
 			local yaw = math.pi*2 - node.param2 * math.pi/2
 			e:setyaw(yaw)
-			print("yaw je: "..yaw)
 		end
 	end
 end
