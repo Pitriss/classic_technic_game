@@ -16,9 +16,6 @@
 [submodule "mods/moreblocks"]
 	path = mods/moreblocks
 	url = https://github.com/Calinou/moreblocks.git
-[submodule "mods/forth_computer"]
-	path = mods/forth_computer
-	url = https://github.com/Novatux/forth_computer.git
 [submodule "mods/wireless"]
 	path = mods/wireless
 	url = https://github.com/lordcirth/minetest-wireless.git
