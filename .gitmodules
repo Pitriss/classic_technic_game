@@ -19,6 +19,3 @@
 [submodule "mods/homedecor"]
 	path = mods/homedecor
 	url = https://github.com/VanessaE/homedecor.git
-[submodule "mods/gloopblocks"]
-	path = mods/gloopblocks
-	url = https://github.com/VanessaE/gloopblocks.git
