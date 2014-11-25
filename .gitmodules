@@ -16,9 +16,6 @@
 [submodule "mods/moreblocks"]
 	path = mods/moreblocks
 	url = https://github.com/Calinou/moreblocks.git
-[submodule "mods/wireless"]
-	path = mods/wireless
-	url = https://github.com/lordcirth/minetest-wireless.git
 [submodule "mods/homedecor"]
 	path = mods/homedecor
 	url = https://github.com/VanessaE/homedecor.git
