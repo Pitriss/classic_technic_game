@@ -1,6 +1,6 @@
 function gate_rotate_rules(node)
 	for rotations = 0, node.param2 - 1 do
-		rules = mesecon.rotate_rules_left(rules)
+		rules = mesecon:rotate_rules_left(rules)
 	end
 	return rules
 end
@@ -23,8 +23,7 @@ function gate_get_input_rules_twoinputs(node)
 	return gate_rotate_rules(node)
 end
 
-function update_gate(pos, node, rulename, newstate)
-	yc_update_real_portstates(pos, node, rulename, newstate)
+function update_gate(pos)
 	gate = get_gate(pos)
 	L = rotate_ports(
 		yc_get_real_portstates(pos),
@@ -47,17 +46,19 @@ function set_gate(pos, on)
 	gate = get_gate(pos)
 	local meta = minetest.get_meta(pos)
 	if on ~= gate_state(pos) then
-		if mesecon.do_overheat(pos) then
+		yc_heat(meta)
+		--minetest.after(0.5, yc_cool, meta)
+		if yc_overheat(meta) then
 			pop_gate(pos)
 		else
 			local node = minetest.get_node(pos)
 			if on then
 				minetest.swap_node(pos, {name = "mesecons_gates:"..gate.."_on", param2=node.param2})
-				mesecon.receptor_on(pos,
+				mesecon:receptor_on(pos,
 				gate_get_output_rules(node))
 			else
 				minetest.swap_node(pos, {name = "mesecons_gates:"..gate.."_off", param2=node.param2})
-				mesecon.receptor_off(pos,
+				mesecon:receptor_off(pos,
 				gate_get_output_rules(node))
 			end
 		end
@@ -76,9 +77,7 @@ end
 function pop_gate(pos)
 	gate = get_gate(pos)
 	minetest.remove_node(pos)
-	minetest.after(0.2, function (pos)
-		mesecon.receptor_off(pos, mesecon.rules.flat)
-	end , pos) -- wait for pending parsings
+	minetest.after(0.2, yc_overheat_off, pos)
 	minetest.add_item(pos, "mesecons_gates:"..gate.."_off")
 end
 
@@ -153,6 +152,7 @@ for _, gate in ipairs(gates) do
 			walkable = true,
 			on_construct = function(pos)
 				local meta = minetest.get_meta(pos)
+				meta:set_int("heat", 0)
 				update_gate(pos)
 			end,
 			groups = groups,
@@ -220,3 +220,4 @@ minetest.register_craft({
 		{'mesecons:mesecon', '', ''},
 	},
 })
+

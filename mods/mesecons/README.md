@@ -77,4 +77,4 @@ All code in this project is licensed under the LGPL version 3 or later. That mea
 
 No warranty is provided, express or implied, for any part of the project.
 
-Pitriss note: version: 23. Nov 2014 - e74241f4aac7b2bda34e496da3dc2cc5f792d569 + custom blinky plant and legacy fix.
+version based on: https://github.com/Jeija/minetest-mod-mesecons/commit/5e02b3beefd285bf85df059619e8f4190f5c5184

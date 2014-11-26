@@ -2,7 +2,7 @@
 local delayer_get_output_rules = function(node)
 	local rules = {{x = 0, y = 0, z = 1}}
 	for i = 0, node.param2 do
-		rules = mesecon.rotate_rules_left(rules)
+		rules = mesecon:rotate_rules_left(rules)
 	end
 	return rules
 end
@@ -10,25 +10,35 @@ end
 local delayer_get_input_rules = function(node)
 	local rules = {{x = 0, y = 0, z = -1}}
 	for i = 0, node.param2 do
-		rules = mesecon.rotate_rules_left(rules)
+		rules = mesecon:rotate_rules_left(rules)
 	end
 	return rules
 end
 
 -- Functions that are called after the delay time
 
+local delayer_turnon = function(params)
+	local rules = delayer_get_output_rules(params.node)
+	mesecon:receptor_on(params.pos, rules)
+end
+
+local delayer_turnoff = function(params)
+	local rules = delayer_get_output_rules(params.node)
+	mesecon:receptor_off(params.pos, rules)
+end
+
 local delayer_activate = function(pos, node)
 	local def = minetest.registered_nodes[node.name]
 	local time = def.delayer_time
 	minetest.swap_node(pos, {name = def.delayer_onstate, param2=node.param2})
-	mesecon.queue:add_action(pos, "receptor_on", {delayer_get_output_rules(node)}, time, nil)
+	minetest.after(time, delayer_turnon , {pos = pos, node = node})
 end
 
 local delayer_deactivate = function(pos, node)
 	local def = minetest.registered_nodes[node.name]
 	local time = def.delayer_time
 	minetest.swap_node(pos, {name = def.delayer_offstate, param2=node.param2})
-	mesecon.queue:add_action(pos, "receptor_off", {delayer_get_output_rules(node)}, time, nil)
+	minetest.after(time, delayer_turnoff, {pos = pos, node = node})
 end
 
 -- Register the 2 (states) x 4 (delay times) delayers

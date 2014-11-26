@@ -1,10 +1,9 @@
 -- SETTINGS
-function mesecon.setting(setting, default)
-	if type(default) == "bool" then
-		return minetest.setting_getbool("mesecon."..setting) or default
-	elseif type(default) == "string" then
-		return minetest.setting_get("mesecon."..setting) or default
-	elseif type(default) == "number" then
-		return tonumber(minetest.setting_get("mesecon."..setting) or default)
-	end
-end
+BLINKY_PLANT_INTERVAL = 3
+NEW_STYLE_WIRES  = true  -- true = new nodebox wires, false = old raillike wires
+PRESSURE_PLATE_INTERVAL = 0.1
+OBJECT_DETECTOR_RADIUS = 6
+PISTON_MAXIMUM_PUSH = 15
+MOVESTONE_MAXIMUM_PUSH = 100
+MESECONS_GLOBALSTEP = true	-- true = receptors/effectors won't be updated
+				-- until next globalstep, decreases server load

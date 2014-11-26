@@ -1,12 +1,12 @@
--- The BLINKY_PLANT (Older better functional)
-
+-- The BLINKY_PLANT
 minetest.register_node("mesecons_blinkyplant:blinky_plant", {
 	drawtype = "plantlike",
 	visual_scale = 1,
 	tiles = {"jeija_blinky_plant_off.png"},
 	inventory_image = "jeija_blinky_plant_off.png",
 	walkable = false,
-	groups = {snappy=3, not_in_creative_inventory=1},
+	groups = {dig_immediate=3, not_in_creative_inventory=1},
+	drop="mesecons_blinkyplant:blinky_plant_off 1",
     description="Deactivated Blinky Plant",
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
@@ -16,9 +16,9 @@ minetest.register_node("mesecons_blinkyplant:blinky_plant", {
 	mesecons = {receptor = {
 		state = mesecon.state.off
 	}},
-	on_punch = function(pos, node, puncher)
+	on_rightclick = function(pos, node, clicker)
         minetest.set_node(pos, {name="mesecons_blinkyplant:blinky_plant_off"})
-    end
+    end	
 })
 
 minetest.register_node("mesecons_blinkyplant:blinky_plant_off", {
@@ -28,8 +28,8 @@ minetest.register_node("mesecons_blinkyplant:blinky_plant_off", {
 	inventory_image = "jeija_blinky_plant_off.png",
 	paramtype = "light",
 	walkable = false,
-	groups = {snappy=3, mesecon = 2},
-    	description="Blinky Plant",
+	groups = {dig_immediate=3, mesecon=2},
+    description="Blinky Plant",
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
@@ -38,7 +38,7 @@ minetest.register_node("mesecons_blinkyplant:blinky_plant_off", {
 	mesecons = {receptor = {
 		state = mesecon.state.off
 	}},
-	on_punch = function(pos, node, puncher)
+	on_rightclick = function(pos, node, clicker)
         minetest.set_node(pos, {name="mesecons_blinkyplant:blinky_plant"})
     end
 })
@@ -50,7 +50,7 @@ minetest.register_node("mesecons_blinkyplant:blinky_plant_on", {
 	inventory_image = "jeija_blinky_plant_off.png",
 	paramtype = "light",
 	walkable = false,
-	groups = {snappy=3, not_in_creative_inventory=1, mesecon = 2},
+	groups = {dig_immediate=3, not_in_creative_inventory=1, mesecon=2},
 	drop="mesecons_blinkyplant:blinky_plant_off 1",
 	light_source = LIGHT_MAX-7,
 	description = "Blinky Plant",
@@ -62,9 +62,9 @@ minetest.register_node("mesecons_blinkyplant:blinky_plant_on", {
 	mesecons = {receptor = {
 		state = mesecon.state.on
 	}},
-	on_punch = function(pos, node, puncher)
-        minetest.set_node(pos, {name="mesecons_blinkyplant:blinky_plant"})
-	mesecon.receptor_off(pos)
+	on_rightclick = function(pos, node, clicker)
+		minetest.set_node(pos, {name = "mesecons_blinkyplant:blinky_plant"})
+		mesecon:receptor_off(pos)
 	end
 })
 
@@ -79,24 +79,24 @@ minetest.register_craft({
 
 minetest.register_abm(
 	{nodenames = {"mesecons_blinkyplant:blinky_plant_off"},
-	interval = 3,
+	interval = BLINKY_PLANT_INTERVAL,
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		--minetest.env:remove_node(pos)
+		--minetest.remove_node(pos)
 		minetest.add_node(pos, {name="mesecons_blinkyplant:blinky_plant_on"})
-		nodeupdate(pos)
-		mesecon.receptor_on(pos)
+		nodeupdate(pos)	
+		mesecon:receptor_on(pos)
 	end,
 })
 
 minetest.register_abm({
 	nodenames = {"mesecons_blinkyplant:blinky_plant_on"},
-	interval = 3,
+	interval = BLINKY_PLANT_INTERVAL,
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		--minetest.env:remove_node(pos)
+		--minetest.remove_node(pos)
 		minetest.add_node(pos, {name="mesecons_blinkyplant:blinky_plant_off"})
-		nodeupdate(pos)
-		mesecon.receptor_off(pos)
+		nodeupdate(pos)	
+		mesecon:receptor_off(pos)
 	end,
 })
