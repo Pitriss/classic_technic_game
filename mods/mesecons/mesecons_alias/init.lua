@@ -36,3 +36,5 @@ minetest.register_alias("mesecons_pistons:piston_up_normal", "mesecons_pistons:p
 minetest.register_alias("mesecons_pistons:piston_down_normal", "mesecons_pistons:piston_down_normal_on")
 minetest.register_alias("mesecons_pistons:piston_up_sticky", "mesecons_pistons:piston_up_sticky_on")
 minetest.register_alias("mesecons_pistons:piston_down_sticky", "mesecons_pistons:piston_down_sticky_on")
+minetest.register_alias("mesecons_detector:object_detector_off", "mesecons_detector:player_detector_off")
+minetest.register_alias("mesecons_detector:object_detector_on", "mesecons_detector:player_detector_on")

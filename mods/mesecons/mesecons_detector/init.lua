@@ -162,7 +162,7 @@ minetest.register_node("mesecons_detector:node_detector_off", {
 	paramtype = "light",
 	walkable = true,
 	groups = {cracky=3},
-	description="Player Detector",
+	description="Node Detector",
 	mesecons = {receptor = {
 		state = mesecon.state.off
 	}},
