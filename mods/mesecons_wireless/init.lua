@@ -15,16 +15,16 @@ end
 local function read_file()
 	local f = io.open(wireless_filename, "r")
 	if f==nil then return {} end
-    	local t = f:read("*all")
-    	f:close()
+		local t = f:read("*all")
+		f:close()
 	if t=="" or t==nil then return {} end
 	return minetest.deserialize(t)
 end
 
 local function write_file(tbl)
 	local f = io.open(wireless_filename, "w")
-    	f:write(minetest.serialize(tbl))
-    	f:close()
+	f:write(minetest.serialize(tbl))
+	f:close()
 end
 
 local function add_wireless_receiver(pos,channel)
