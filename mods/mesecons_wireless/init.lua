@@ -1,30 +1,19 @@
+
 local wireless_filename=minetest.get_worldpath() .. "/wireless"
-
-local formspec = "size[9,1.5]" ..
-		"field[0.3,0;9,2;channel;Channel;${channel}]"..
-		"button_exit[7,0;2,3;save;Save]"
-
-local function formspec_handling (fields)
-	if fields.save == nil then
-		return true
-	else
-		return false
-	end
-end
 
 local function read_file()
 	local f = io.open(wireless_filename, "r")
 	if f==nil then return {} end
-		local t = f:read("*all")
-		f:close()
+    	local t = f:read("*all")
+    	f:close()
 	if t=="" or t==nil then return {} end
 	return minetest.deserialize(t)
 end
 
 local function write_file(tbl)
 	local f = io.open(wireless_filename, "w")
-	f:write(minetest.serialize(tbl))
-	f:close()
+    	f:write(minetest.serialize(tbl))
+    	f:close()
 end
 
 local function add_wireless_receiver(pos,channel)
@@ -75,12 +64,11 @@ minetest.register_node("mesecons_wireless:emitter", {
 	tiles = {"mesecons_wireless_emitter.png"},
 	walkable = true,
 	on_construct = function(pos)
-		local meta = minetest.get_meta(pos)
+		local meta = minetest.env:get_meta(pos)
 		meta:set_string("channel","")
-		meta:set_string("formspec", formspec)
+		meta:set_string("formspec","size[9,1;]field[0,0.5;9,1;channel;Channel:;${channel}]")
 	end,
 	on_receive_fields = function(pos,formname,fields,sender)
-		if formspec_handling(fields) == true then return end
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("channel",fields.channel)
 	end,
@@ -91,21 +79,21 @@ minetest.register_node("mesecons_wireless:emitter", {
 		effector =
 		{
 			action_on = function(pos)
-				local meta = minetest.get_meta(pos)
+				local meta = minetest.env:get_meta(pos)
 				local channel = meta:get_string("channel")
 				local w = get_wireless_receivers(channel)
 				for _,i in ipairs(w) do
 					mesecon:receptor_on(i)
-					minetest.swap_node(i, {name = "mesecons_wireless:receiver_on"})
+					mesecon:swap_node(i, "mesecons_wireless:receiver_on")
 				end
 			end,
 			action_off = function(pos)
-				local meta = minetest.get_meta(pos)
+				local meta = minetest.env:get_meta(pos)
 				local channel = meta:get_string("channel")
 				local w = get_wireless_receivers(channel)
 				for _,i in ipairs(w) do
 					mesecon:receptor_off(i)
-					minetest.swap_node(i, {name = "mesecons_wireless:receiver"})
+					mesecon:swap_node(i, "mesecons_wireless:receiver")
 				end
 			end,
 		}
@@ -119,14 +107,13 @@ minetest.register_node("mesecons_wireless:receiver", {
 	tiles = {"mesecons_wireless_receiver.png"},
 	walkable = true,
 	on_construct = function(pos)
-		local meta = minetest.get_meta(pos)
+		local meta = minetest.env:get_meta(pos)
 		meta:set_string("channel","")
-		meta:set_string("formspec", formspec)
+		meta:set_string("formspec","size[9,1;]field[0,0.5;9,1;channel;Channel:;${channel}]")
 		add_wireless_receiver(pos,"")
 	end,
 	on_receive_fields = function(pos,formname,fields,sender)
-		if formspec_handling(fields) == true then return end
-		local meta = minetest.get_meta(pos)
+		local meta = minetest.env:get_meta(pos)
 		meta:set_string("channel",fields.channel)
 		remove_wireless_receiver(pos)
 		add_wireless_receiver(pos,fields.channel)
@@ -152,14 +139,13 @@ minetest.register_node("mesecons_wireless:receiver_on", {
 	tiles = {"mesecons_wireless_receiver_on.png"},
 	walkable = true,
 	on_construct = function(pos)
-		local meta = minetest.get_meta(pos)
+		local meta = minetest.env:get_meta(pos)
 		meta:set_string("channel","")
-		meta:set_string("formspec", formspec)
+		meta:set_string("formspec","size[9,1;]field[0,0.5;9,1;channel;Channel:;${channel}]")
 		add_wireless_receiver(pos,"")
 	end,
 	on_receive_fields = function(pos,formname,fields,sender)
-		if formspec_handling(fields) == true then return end
-		local meta = minetest.get_meta(pos)
+		local meta = minetest.env:get_meta(pos)
 		meta:set_string("channel",fields.channel)
 		remove_wireless_receiver(pos)
 		add_wireless_receiver(pos,fields.channel)
