@@ -1,10 +1,14 @@
 Classic technic Game for Minetest engine
 ==========================================================
 
+Warning: I lost interest in Minetest, so this project is on hold.
+it should be functional and because its targeted to old version of MT,
+there is minimal chance that devs break anything.
+
 This game is inspired by technic game, but with older more challenging
 recipes, with lot of additions, some deletions and changes at all.
 
-This game contains more than 4000 blocks so you need fresh git server.
+This game contains more than 4000 blocks so you need 0.4.7 git server.
 (atleast from 1. Nov 2013)
 
 Cloning with git:
